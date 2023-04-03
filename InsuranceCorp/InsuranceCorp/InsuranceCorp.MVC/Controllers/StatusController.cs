@@ -2,30 +2,30 @@
 using InsuranceCorp.MVC.Models;
 using System.Diagnostics;
 using InsuranceCorp.Data;
+using Microsoft.Extensions.Logging;
 
 namespace InsuranceCorp.MVC.Controllers
 {
     public class StatusController : Controller
     {
         private readonly InsCorpDbContext _context;
+        private readonly ILogger<HomeController> _logger;
+
         /// <summary>
         /// konstruktor
         /// </summary>
-        public  StatusController(InsCorpDbContext context) 
+        public  StatusController(InsCorpDbContext context, ILogger<HomeController> logger) 
         {
             _context= context;
-        }
-
-
-        private readonly ILogger<HomeController> _logger;
-
-        public StatusController(ILogger<HomeController> logger)
-        {
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            bool status = _context.Database.CanConnect();
+
+            ViewData["status"] = status;
+
             return View();
         }
 

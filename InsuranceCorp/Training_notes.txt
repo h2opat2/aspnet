@@ -61,4 +61,8 @@ Propojení s MVC
 do program.cs pøidat DbContext pøed 'var app = builder.Build();':
     builder.Services.AddDbContext<InsCorpDbContext>();
 
+pøedání hodnot do view:
+    pøes dictionary ViewData: ViewData["status"] = status;
+        
+
     
