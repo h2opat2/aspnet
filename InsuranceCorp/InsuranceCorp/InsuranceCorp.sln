@@ -5,6 +5,11 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceCorp.MVC", "InsuranceCorp.MVC\InsuranceCorp.MVC.csproj", "{ACC37A5D-D69E-4995-804F-AB66226AEED7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FFD61A2E-E9F2-458E-871D-0E2B20344147}"
+	ProjectSection(SolutionItems) = preProject
+		..\Training_notes.txt = ..\Training_notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
