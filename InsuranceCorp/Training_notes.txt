@@ -56,6 +56,15 @@ Data
 
 public virtual DbSet<Address> Addresses { get; set; } kde Addresses je název tabulky v DB
 
+Controler
+1)  Dependenci Injection - podstrèit dbContext do konstruktoru
+        private readonly InsCorpDbContext _context;
+        public PersonController(InsCorpDbContext context)
+        {
+            _context = context;
+        }
+2)  Naplnìní dat pomocí LINQ a pøedání do View
+
 Propojení s MVC
 
 do program.cs pøidat DbContext pøed 'var app = builder.Build();':
@@ -63,6 +72,15 @@ do program.cs pøidat DbContext pøed 'var app = builder.Build();':
 
 pøedání hodnot do view:
     pøes dictionary ViewData: ViewData["status"] = status;
+
+
+using pro všechny view:
+vložení do _ViewImports.cshtml
+
+pøístup k datùm z propojené tabulky - .Include()
+var top100 = _context.Persons.Include(person => person.Constracts)
+                .OrderBy(person => person.Id)
+                .Take(100).ToList();
         
 
     
