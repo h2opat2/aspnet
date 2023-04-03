@@ -1,0 +1,8 @@
+GIT REPOSITORY
+https://github.com/kubicek-skoleni/aspnet/
+
+dot.net
+https://dotnet.microsoft.com/en-us/apps/aspnet
+
+VS
+- (ctrl + Q) prohledává okna/funkce
