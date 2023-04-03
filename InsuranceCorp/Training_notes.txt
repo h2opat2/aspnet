@@ -47,3 +47,18 @@ Routing
         app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+
+Models:
+ místo List<> používat radìji  ICollection - kvùli Entity Framework
+     public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+
+Data
+
+public virtual DbSet<Address> Addresses { get; set; } kde Addresses je název tabulky v DB
+
+Propojení s MVC
+
+do program.cs pøidat DbContext pøed 'var app = builder.Build();':
+    builder.Services.AddDbContext<InsCorpDbContext>();
+
+    

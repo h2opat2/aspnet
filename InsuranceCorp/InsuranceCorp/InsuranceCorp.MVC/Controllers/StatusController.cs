@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using InsuranceCorp.MVC.Models;
 using System.Diagnostics;
+using InsuranceCorp.Data;
 
 namespace InsuranceCorp.MVC.Controllers
 {
     public class StatusController : Controller
     {
+        private readonly InsCorpDbContext _context;
+        /// <summary>
+        /// konstruktor
+        /// </summary>
+        public  StatusController(InsCorpDbContext context) 
+        {
+            _context= context;
+        }
+
+
         private readonly ILogger<HomeController> _logger;
 
         public StatusController(ILogger<HomeController> logger)
