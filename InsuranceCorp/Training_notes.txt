@@ -3,6 +3,47 @@ https://github.com/kubicek-skoleni/aspnet/
 
 dot.net
 https://dotnet.microsoft.com/en-us/apps/aspnet
+https://learn.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-7.0
+
+Bootstrap.com
+https://getbootstrap.com/
+https://bootswatch.com/
+
+alternativy
+https://picocss.com/
+
+https://materializecss.com/
+
+https://tailwindcss.com/
+
+https://themeforest.net/
+
 
 VS
 - (ctrl + Q) prohledává okna/funkce
+
+
+IActionResult / interface (rùzné návratové typy, které splnují urèité podmínky - polymorfismus)
+
+V home controller jsem pridal metodu Hello. Tu zavolám pomocí URL:
+https://localhost:7274/Home/Hello
+
+
+Pokud metoda xxx vrací View(), pøesmìruje se výstup na xxx.cshtml ve views
+
+Komentáøe: zaèátek - @* konec - *@
+
+Metoda @RenderBody() v _Loyout odkazuje na konkrétní použité stránky
+
+TAG HELPERS
+https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-7.0
+
+asp-append-version="true" - použití pro cachování lokální / jednou naète a poté jen lokální naèítá.
+						- pøi zmìnì obsahu souboru se zmìní URL a pak naète nový soubor
+
+Routing
+ - kam aplikace nasmìruje
+ -defaultni nastavení:
+        app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");

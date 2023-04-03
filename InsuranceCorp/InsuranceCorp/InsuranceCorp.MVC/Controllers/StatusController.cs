@@ -1,29 +1,19 @@
-﻿using InsuranceCorp.MVC.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using InsuranceCorp.MVC.Models;
 using System.Diagnostics;
 
 namespace InsuranceCorp.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class StatusController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public StatusController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult Hello()
         {
             return View();
         }
