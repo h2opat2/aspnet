@@ -20,6 +20,7 @@ public class Person
     [EmailAddress]
     public string? Email { get; set; }
     [Display(Name = "Datum narození")]
+    [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
     public Address? Address { get; set; }
     public ICollection<Contract> Constracts { get; set; } = new HashSet<Contract>();
