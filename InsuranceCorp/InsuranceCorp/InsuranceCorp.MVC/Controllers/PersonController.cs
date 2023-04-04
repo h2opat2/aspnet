@@ -76,19 +76,29 @@ namespace InsuranceCorp.MVC.Controllers
         [HttpPost]
         public  IActionResult Edit(Person formPerson)
         {
-            // najit osobu v db
-            var dbPerson = _context.Persons.Find(formPerson.Id);
+            if (!ModelState.IsValid) { //nevalidni data
+            }
+                // najit osobu v db
+                var dbPerson = _context.Persons.Find(formPerson.Id);
 
-            // ulozit zmenenou ososbu do db
-            dbPerson.FirstName  = formPerson.FirstName;
-            dbPerson.LastName = formPerson.LastName;
-            dbPerson.Email = formPerson.Email;
-            dbPerson.DateOfBirth= formPerson.DateOfBirth;
-            _context.SaveChanges();
+                // ulozit zmenenou ososbu do db
+                //1)
+                //dbPerson.FirstName  = formPerson.FirstName;
+                //dbPerson.LastName = formPerson.LastName;
+                //dbPerson.Email = formPerson.Email;
+                //dbPerson.DateOfBirth= formPerson.DateOfBirth;
 
-            // zobrazit zmeny
-            ViewData["success_msg"] = "Úspěšně uloženo do databáze";
-            return View(dbPerson);
+                //2)
+                // _context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
+
+                //3)
+                _context.Entry(dbPerson).State = EntityState.Modified;
+
+                _context.SaveChanges();
+
+                // zobrazit zmeny
+                ViewData["success_msg"] = "Úspěšně uloženo do databáze";
+                return View(dbPerson);
         }
 
     }

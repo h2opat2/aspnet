@@ -51,6 +51,12 @@ Routing
 Models:
  místo List<> používat radìji  ICollection - kvùli Entity Framework
      public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+Podstrèení vlastního pojmenování prvkù pomocí atributu [Display(Name = "Jméno")]]
+    [MaxLength(250)]
+    [Display(Name = "Jméno")]
+    public string? FirstName { get; set; }
+Urèení zobrazení jen data pro DateTime:
+    [DataType(DataType.Date)]
 
 Data
 
@@ -114,6 +120,17 @@ Ošetøení špatného requestu:
             {
                 return NotFound();
             }
+
+Edit:
+ 1] aktualiyace prvku po prvku
+    dbPerson.FirstName  = formPerson.FirstName; ...
+ 2] pøiøazení nových hodnot z Form objektu z DB: - pokud mám ve formuláøi všechny vlastnosti!
+    _context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
+ 3] objektu z form pøiøadit status MODIFIED
+    _context.Entry(dbPerson).State = EntityState.Modified;
+
+    doporuèuje se nezasahovat do vnitrnich stavu - u jednoducheho zvolit 1) a delších 2)
+
         
 
     
