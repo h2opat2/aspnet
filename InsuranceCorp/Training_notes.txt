@@ -190,3 +190,5 @@ Database First:
             return _next(httpContext);
         }
     
+    - do Program.cs vožit Use Middleware
+        app.UseLogRequestMiddleware();
