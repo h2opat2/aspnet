@@ -81,6 +81,39 @@ pøístup k datùm z propojené tabulky - .Include()
 var top100 = _context.Persons.Include(person => person.Constracts)
                 .OrderBy(person => person.Id)
                 .Take(100).ToList();
+
+Formuláø:
+
+1)  formuláø jako takový
+2) metoda, která zpracuje data z formuláøe
+
+deklarace 2. metody pomocí atributu [HttpPost] + model binding
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(Person person)
+        {
+            // ulozit osobu do DB
+            _context.Persons.Add(person);
+            _context.SaveChanges();
+
+            // navrat GUI
+            return Redirect($"/person/detail/{person.Id}");
+        }
+
+Ošetøení špatného requestu:
+
+1)  return NotFound(); - metoda se dìdí od Controller
+            // ziskat data
+            var person = _context.Persons.Find(id);
+
+            if(person == null)
+            {
+                return NotFound();
+            }
         
 
     
