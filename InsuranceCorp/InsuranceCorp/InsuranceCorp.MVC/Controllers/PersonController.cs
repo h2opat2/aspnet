@@ -1,5 +1,6 @@
 ﻿using InsuranceCorp.Data;
 using InsuranceCorp.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,8 @@ namespace InsuranceCorp.MVC.Controllers
         public IActionResult Index()
         {
             // 1) získání dat / jejich zpracování
-            var top100 = _context.Persons.Include(person => person.Constracts)
-                .OrderByDescending(person => person.Constracts.Count())
+            var top100 = _context.Persons.Include(person => person.Contracts)
+                .OrderByDescending(person => person.Contracts.Count())
                 .Take(100).ToList();
 
             ViewData["count"] = _context.Persons.Count();
@@ -41,19 +42,20 @@ namespace InsuranceCorp.MVC.Controllers
 
             if (person == null)
             {
-                ViewData["id"] = id;
+                ViewData["msg"] = "ID: " + id;
                 return View("NotFound");
             }
 
             return View(person);
         }
-
+        [Authorize]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(Person person)
         {
             // ulozit osobu do DB
@@ -63,7 +65,7 @@ namespace InsuranceCorp.MVC.Controllers
             // navrat GUI
             return Redirect($"/person/detail/{person.Id}");
         }
-
+        [Authorize]
         public IActionResult Edit(int id)
         {
             // najít osobu z DB
@@ -74,6 +76,7 @@ namespace InsuranceCorp.MVC.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public  IActionResult Edit(Person formPerson)
         {
             if (!ModelState.IsValid) { //nevalidni data
@@ -89,16 +92,31 @@ namespace InsuranceCorp.MVC.Controllers
                 //dbPerson.DateOfBirth= formPerson.DateOfBirth;
 
                 //2)
-                // _context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
+                 _context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
 
                 //3)
-                _context.Entry(dbPerson).State = EntityState.Modified;
+                //_context.Entry(formPerson).State = EntityState.Modified;
 
                 _context.SaveChanges();
 
                 // zobrazit zmeny
                 ViewData["success_msg"] = "Úspěšně uloženo do databáze";
                 return View(dbPerson);
+        }
+
+        public IActionResult GetByEmail(string email)
+        {
+            // ziskat data
+            var person = _context.Persons
+                         .Where(person => person.Email.ToUpper() == email.ToUpper())
+                         .FirstOrDefault();
+
+            if(person == null)
+                return NotFound();
+
+            // zobrzit data
+            return View("Detail", person);
+
         }
 
     }

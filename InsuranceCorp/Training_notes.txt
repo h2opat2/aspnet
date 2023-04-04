@@ -131,6 +131,15 @@ Edit:
 
     doporuèuje se nezasahovat do vnitrnich stavu - u jednoducheho zvolit 1) a delších 2)
 
+
+pøihlášení uživatelù:
+[Authorize] atribut u metod
+
+Databáze:
+
+create: update-database -Context ApplicationDbContext
+migrace: add-migration BirthNumber -Context InsCorpDbContext
+        update-database -Context InsCorpDbContext
         
 
     
