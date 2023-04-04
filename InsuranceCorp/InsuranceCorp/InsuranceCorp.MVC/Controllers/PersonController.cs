@@ -64,5 +64,32 @@ namespace InsuranceCorp.MVC.Controllers
             return Redirect($"/person/detail/{person.Id}");
         }
 
+        public IActionResult Edit(int id)
+        {
+            // najít osobu z DB
+            var person = _context.Persons.Find(id);
+
+            // zobrazit editacni formular
+            return View(person);
+        }
+
+        [HttpPost]
+        public  IActionResult Edit(Person formPerson)
+        {
+            // najit osobu v db
+            var dbPerson = _context.Persons.Find(formPerson.Id);
+
+            // ulozit zmenenou ososbu do db
+            dbPerson.FirstName  = formPerson.FirstName;
+            dbPerson.LastName = formPerson.LastName;
+            dbPerson.Email = formPerson.Email;
+            dbPerson.DateOfBirth= formPerson.DateOfBirth;
+            _context.SaveChanges();
+
+            // zobrazit zmeny
+            ViewData["success_msg"] = "Úspěšně uloženo do databáze";
+            return View(dbPerson);
+        }
+
     }
 }

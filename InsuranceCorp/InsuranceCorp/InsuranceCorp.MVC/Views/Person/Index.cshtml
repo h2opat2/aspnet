@@ -20,25 +20,32 @@
         @foreach (var person in Model)
         {
             // odkaz tvoří jeden sloupeček na řádku
-            @*                <tr>
-        <td>
-        <a asp-controller="Person" asp-action="Detail" asp-route-id="@person.Id">
-        @person.FirstName</a>
-        </td>
-        <td>@person.LastName</td>
-        <td>@person.DateOfBirth.ToString("dd. MM. yyyy")</td>
-        <td>@person.Email</td>
-        <td>@person.Constracts.Count()</td>
-        </tr>
-        *@
-            // odkaz tvoří celý řádek
-            <tr class="table-row-link" onclick="window.location.href='@Url.Action("Detail", "Person", new { id = person.Id })'">
+            <tr>
                 <td>@person.FirstName</td>
                 <td>@person.LastName</td>
                 <td>@person.DateOfBirth.ToString("dd. MM. yyyy")</td>
                 <td>@person.Email</td>
                 <td>@person.Constracts.Count()</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Person" asp-action="Detail" asp-route-id="@person.Id">
+                        Detail
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id">
+                        Upravit
+                    </a>
+                </td>
             </tr>
+
+                // odkaz tvoří celý řádek
+            @*            <tr class="table-row-link" onclick="window.location.href='@Url.Action("Detail", "Person", new { id = person.Id })'">
+        <td>@person.FirstName</td>
+        <td>@person.LastName</td>
+        <td>@person.DateOfBirth.ToString("dd. MM. yyyy")</td>
+        <td>@person.Email</td>
+        <td>@person.Constracts.Count()</td>
+        </tr>*@
 
         }
     </table>
