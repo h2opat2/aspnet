@@ -140,6 +140,14 @@ Databáze:
 create: update-database -Context ApplicationDbContext
 migrace: add-migration BirthNumber -Context InsCorpDbContext
         update-database -Context InsCorpDbContext
+
+Database First:
+    EF Core Power Tools
+    https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools
         
 
+
+ === A P I ===
+
+ Application interface - vracení dat v JSON pro klienta místo vyrenderovaných stránek jako v MVC
     
