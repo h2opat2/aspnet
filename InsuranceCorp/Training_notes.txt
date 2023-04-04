@@ -150,4 +150,43 @@ Database First:
  === A P I ===
 
  Application interface - vracení dat v JSON pro klienta místo vyrenderovaných stránek jako v MVC
+
+ [Route("api/[controller]")] - [controller] vezme název kontroleru
+
+ výbìr jen nìkterých prvkù z tabulky
+    - vytvoøit vlastní tøídu pro návratový typ Task<ActionResult<IEnumerable<TypProNavrat>>>
+    - nebo dotaz zabalit do funkce Ok(), ale návrtový typ zmìnit na Task<ActionResult>
+        return Ok(_context.Persons
+                        .Include(person => person.Address)
+                        .Where(person => person.Address!=null && person.Address.City.ToUpper() == city.ToUpper())
+                        .Select(person => new { person.FirstName, person.LastName, person.Address.City })
+                        .ToList());
+
+    - poté použít .Select(person => new {person.FirstName, person.LastName, person.Address.City})
+
+    Middleware:
+    vlastní pro logování requestu:
+        - vytvoøit složku Middleware
+        - vytvoøit pøedpripravenou tøídu Middleware
+        - injectnout metodu Invoke
+
+            public Task Invoke(HttpContext httpContext, InsCorpDbContext context)
+        {
+            // ziskat informace o requestu a odeslat do DB
+            var url = httpContext.Request.Path;
+            var ip = httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+
+            // ulozeni do databaze
+            context.LogRequests.Add(new Model.RequestLog()
+            {
+                Date = DateTime.Now,
+                Url= url,
+                IP= ip
+            });
+
+            context.SaveChanges();
+
+
+            return _next(httpContext);
+        }
     
