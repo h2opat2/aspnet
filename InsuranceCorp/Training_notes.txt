@@ -192,3 +192,7 @@ Database First:
     
     - do Program.cs vožit Use Middleware
         app.UseLogRequestMiddleware();
+
+Minimal API
+- vše jen v Program.cs, bez kontroleru
+    app.MapGet()
