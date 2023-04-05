@@ -1,5 +1,6 @@
 ﻿@page "/person/edit/{Id:int}"
 @inject InsCorpDbContext context
+@inject NavigationManager nav
 
 <h3>Upravit uživatele id: @Id</h3>
 
@@ -20,6 +21,7 @@
         <label class="form-label">Datum narození</label>
         <InputDate class="form-control" @bind-Value="person.DateOfBirth" />
     </div>
+    <br/>
     <div class="form-group">
         <button type="submit">Uložit změny</button>
     </div>
@@ -36,7 +38,7 @@
 
 @if (showError)
 {
-    <div class="alert alert-success d-flex align-items-center" role="alert">
+    <div class="alert alert-success d-flex align-items-center" role="alert" >
         <div>
             Chyba při uložení
         </div>
@@ -48,7 +50,7 @@
 @code {
     [Parameter]
     public int Id { get; set; }
-    private string msg;
+
     private bool showSuccess = false;
     private bool showError = false;
 
@@ -68,6 +70,8 @@
         {
             context.SaveChanges();
             showSuccess = true;
+
+            nav.NavigateTo($"/person/detail/{person.Id}");
         }
         catch
         {

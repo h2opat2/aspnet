@@ -1,0 +1,68 @@
+﻿@page "/search"
+@inject InsCorpDbContext context
+
+<h3>Hledej osoby podle emailu</h3>
+
+<div class="row g-3 align-items-center">
+    <div class="col-auto">
+        <label class="col-form-label">Email:</label>
+    </div>
+    <div class="col-auto">
+        <InputText @bind-Value="search" class="form-control"/>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary" @onclick="searchByEmail">
+            Hledej
+        </button>
+    </div>
+</div>
+
+<br/>
+<br />
+
+@if (showProgress)
+{
+    <div> NAČÍTÁM </div>
+    <br/>
+    <br/>
+}
+
+<h6>Výsledek hledání</h6>
+<table>
+    <tr>
+        <td>Jméno</td>
+        <td>Email</td>
+    </tr>
+    @foreach(var person in findresult)
+    {
+        <tr>
+            <td>@person.FirstName @person.LastName</td>
+            <td><a href="/person/detail/@person.Id">@person.Email</a></td>
+        </tr>
+    }
+</table>
+
+@code {
+    private string search = "";
+    List<Person> findresult = new List<Person>();
+
+    private bool showProgress = false;
+
+    private async Task searchByEmail()
+    {
+
+        showProgress = true;
+
+        await Task.Delay(500);
+
+        StateHasChanged();
+
+
+        findresult = await context.Persons
+                        .Where(person => person.Email.ToUpper().Contains(search.ToUpper()))
+                        .Take(100)
+                        .ToListAsync();
+
+        showProgress = false;
+    }
+}

@@ -1,3 +1,7 @@
+Trainings
+https://www.pluralsight.com/
+https://www.entityframeworktutorial.net/efcore/entity-framework-core.aspx
+
 GIT REPOSITORY
 https://github.com/kubicek-skoleni/aspnet/
 
@@ -17,6 +21,9 @@ https://materializecss.com/
 https://tailwindcss.com/
 
 https://themeforest.net/
+
+ikony
+https://icon-sets.iconify.design/oi/
 
 
 VS

@@ -14,7 +14,6 @@
     </tr>
     @foreach (var person in persons)
     {
-        // odkaz tvoří jeden sloupeček na řádku
         <tr>
             <td>@person.FirstName</td>
             <td>@person.LastName</td>
@@ -22,38 +21,58 @@
             <td>@person.Email</td>
             <td>@person.Contracts.Count()</td>
             <td>
-                <a class="btn btn-primary"style="background-color:dodgerblue" href="/person/detail/@person.Id">
+                <a class="btn btn-primary" style="background-color:dodgerblue" href="/person/detail/@person.Id">
                     Detail
                 </a>
             </td>
             <td>
-                <a class="btn btn-primary"style="background-color:dodgerblue" href="/person/edit/@person.Id">
+                <a class="btn btn-primary" style="background-color:dodgerblue" href="/person/edit/@person.Id">
                     Upravit
                 </a>
             </td>
         </tr>
-
-        // odkaz tvoří celý řádek
-        @*            <tr class="table-row-link" onclick="window.location.href='@Url.Action("Detail", "Person", new { id = person.Id })'">
-    <td>@person.FirstName</td>
-    <td>@person.LastName</td>
-    <td>@person.DateOfBirth.ToString("dd. MM. yyyy")</td>
-    <td>@person.Email</td>
-    <td>@person.Constracts.Count()</td>
-    </tr>*@
-
     }
 </table>
+
+<button class="btn btn-primary" @onclick="LoadNext">
+    Načti dalších 20 osob
+</button>
 
 
 @code {
     private List<Person> persons = new List<Person>();
+    private Person person = new Person();
+    private int counter = 0;
+    private string? filterEmail;
 
     protected override void OnInitialized()
     {
+        counter = 20;
+
         persons = context.Persons
                     .Include(person => person.Contracts)
-                    .Take(100)
+                    .Take(counter)
                     .ToList();
+
+    }
+
+    private void LoadNext()
+    {
+        var next = context.Persons
+                    .Include(person => person.Contracts)
+                    .Skip(counter)
+                    .Take(20)
+                    .ToList();
+
+        counter += 20;
+
+        persons.AddRange(next);
+    }
+
+    private void FilterByEmail()
+    {
+        persons = context.Persons
+                    .Include(person => person.Contracts)
+                    .Where(person => person.Email.Contains(filterEmail)).ToList();
     }
 }
