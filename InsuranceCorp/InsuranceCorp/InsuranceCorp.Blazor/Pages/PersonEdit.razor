@@ -1,14 +1,78 @@
 ﻿@page "/person/edit/{Id:int}"
 @inject InsCorpDbContext context
+
 <h3>Upravit uživatele id: @Id</h3>
+
+<EditForm Model="person" OnSubmit="Save">
+    <div class="form-group">
+        <label class="form-label">Jméno</label>
+        <InputText class="form-control"@bind-Value="person.FirstName"/>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Příjmení</label>
+        <InputText class="form-control"@bind-Value="person.LastName" />
+    </div>
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <InputText class="form-control"@bind-Value="person.Email" />
+    </div>
+    <div class="form-group">
+        <label class="form-label">Datum narození</label>
+        <InputDate class="form-control" @bind-Value="person.DateOfBirth" />
+    </div>
+    <div class="form-group">
+        <button type="submit">Uložit změny</button>
+    </div>
+</EditForm>
+<br/>
+@if (showSuccess)
+{
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <div>
+            Úspěšně uloženo
+        </div>
+    </div>
+}
+
+@if (showError)
+{
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <div>
+            Chyba při uložení
+        </div>
+    </div>
+}
+
+
 
 @code {
     [Parameter]
     public int Id { get; set; }
+    private string msg;
+    private bool showSuccess = false;
+    private bool showError = false;
+
     private Person person = new Person();
 
     protected override void OnInitialized()
     {
         person = context.Persons.Find(Id);
+    }
+
+    private void Save()
+    {
+        showSuccess = false;
+        showError = false;
+
+        try
+        {
+            context.SaveChanges();
+            showSuccess = true;
+        }
+        catch
+        {
+            showError = true;
+        }
+        
     }
 }

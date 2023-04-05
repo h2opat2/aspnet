@@ -208,6 +208,7 @@ Minimal API
 
 === B L A Z O R ===
 https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
+https://blazor-university.com/
 
 Single Page Aplications (SPA)
 SPA framework aplikace = stáhne si vše(na pozadí naèítání dalších dat dle potøeby), dále se chová podle javascript eventù v prohlížeèi
@@ -228,5 +229,7 @@ není konstruktor, proto se Injectuje na zaèátku .razer :
 
         @page "/person/detail/{Id:int}" - promena v URL
         v @code se definuje jako:
+
+        <InputDate @bind-Value="person.DateOfBirth" /> - nabindovani property
             
 
