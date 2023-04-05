@@ -220,3 +220,13 @@ if (!app.Environment.IsDevelopment()) - zjišování, jestli je program pouštìn z 
 
 @page "/counter" - kam z URL pujde
 
+<p role="status">Current count: @currentCount</p> - lokální promìnná definovaná v @code, je naBindovaná a dynamické aktualizace
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button> - volání lokální metody, kde dochází k aktualizaci lokální promìnné a dynamicky se upraví hodnota v html
+
+není konstruktor, proto se Injectuje na zaèátku .razer :
+        @inject WeatherForecastService ForecastService
+
+        @page "/person/detail/{Id:int}" - promena v URL
+        v @code se definuje jako:
+            
+
