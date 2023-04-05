@@ -153,6 +153,12 @@ Database First:
 
  [Route("api/[controller]")] - [controller] vezme název kontroleru
 
+ [Route("city/{city}")]
+ [HttpGet]
+
+ // dohromady lze zapsat jako:
+ [HttpGet("city/{city}")]
+
  vıbìr jen nìkterıch prvkù z tabulky
     - vytvoøit vlastní tøídu pro návratovı typ Task<ActionResult<IEnumerable<TypProNavrat>>>
     - nebo dotaz zabalit do funkce Ok(), ale návrtovı typ zmìnit na Task<ActionResult>
@@ -196,3 +202,21 @@ Database First:
 Minimal API
 - vše jen v Program.cs, bez kontroleru
     app.MapGet()
+
+
+
+
+=== B L A Z O R ===
+https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor
+
+Single Page Aplications (SPA)
+SPA framework aplikace = stáhne si vše(na pozadí naèítání dalších dat dle potøeby), dále se chová podle javascript eventù v prohlíeèi
+
+FW - javascript v prohlíeèi, postaveno na Ajax
+
+Klienta ale programujeme v C# ! nemusíme pøijít do styku s JavaScriptem
+
+if (!app.Environment.IsDevelopment()) - zjišování, jestli je program pouštìn z VS
+
+@page "/counter" - kam z URL pujde
+

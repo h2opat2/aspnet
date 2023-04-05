@@ -1,0 +1,8 @@
+jakou architekturu zvolit, pokud bych chtěl vytvořit webovou aplikaci pro zobrazování dat z IoT v reálném čase, kde IoT je připojeno u klienta pomocí USB, sériové linky či přes BlueTooth?
+Pro webovou aplikaci, která zobrazuje data z IoT v reálném čase, kde jsou zařízení připojeny přímo k klientovi pomocí USB, sériové linky nebo Bluetooth, bychom mohli zvolit architekturu založenou na WebSockets.
+
+WebSockets jsou protokolem, který umožňuje dvěma koncovým bodům, jako jsou prohlížeč a webový server, navázat stálé spojení, které může být použito pro obousměrnou komunikaci v reálném čase. To umožňuje, aby se data z IoT zařízení, které jsou připojena k klientovi, posílala na server a zpět do webové aplikace bez nutnosti opakovaného navazování spojení.
+
+Architektura by mohla být následující: klient by mohl mít desktopovou aplikaci, která by se starala o čtení dat z IoT zařízení pomocí USB, sériové linky nebo Bluetooth. Tato desktopová aplikace by pak mohla posílat data pomocí WebSockets na webový server, kde by byla data zpracována a uložena do databáze. Webová aplikace by se pak mohla připojit na tento server a pomocí WebSockets zobrazovat data z databáze v reálném čase.
+
+Tuto architekturu by bylo možné realizovat například pomocí ASP.NET Core SignalR pro implementaci WebSockets na serverové straně a například Electron.js pro vytvoření desktopové aplikace na straně klienta.
