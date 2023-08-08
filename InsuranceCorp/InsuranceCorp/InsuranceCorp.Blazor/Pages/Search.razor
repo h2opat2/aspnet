@@ -8,10 +8,10 @@
         <label class="col-form-label">Email:</label>
     </div>
     <div class="col-auto">
-        <InputText @bind-Value="search" class="form-control"/>
+        <InputText @bind-Value="search" class="form-control" @oninput="searchByEmail" />
     </div>
     <div class="col-auto">
-        <button class="btn btn-primary" @onclick="searchByEmail">
+        <button class="btn btn-primary" >
             Hledej
         </button>
     </div>

@@ -51,19 +51,19 @@ asp-append-version="true" - pouití pro cachování lokální / jednou naète a poté 
 Routing
  - kam aplikace nasmìruje
  -defaultni nastavení:
-        app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+		app.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Home}/{action=Index}/{id?}");
 
 Models:
  místo List<> pouívat radìji  ICollection - kvùli Entity Framework
-     public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
+	 public ICollection<Contract> Contracts { get; set; } = new HashSet<Contract>();
 Podstrèení vlastního pojmenování prvkù pomocí atributu [Display(Name = "Jméno")]]
-    [MaxLength(250)]
-    [Display(Name = "Jméno")]
-    public string? FirstName { get; set; }
+	[MaxLength(250)]
+	[Display(Name = "Jméno")]
+	public string? FirstName { get; set; }
 Urèení zobrazení jen data pro DateTime:
-    [DataType(DataType.Date)]
+	[DataType(DataType.Date)]
 
 Data
 
@@ -71,20 +71,20 @@ public virtual DbSet<Address> Addresses { get; set; } kde Addresses je název tab
 
 Controler
 1)  Dependenci Injection - podstrèit dbContext do konstruktoru
-        private readonly InsCorpDbContext _context;
-        public PersonController(InsCorpDbContext context)
-        {
-            _context = context;
-        }
+		private readonly InsCorpDbContext _context;
+		public PersonController(InsCorpDbContext context)
+		{
+			_context = context;
+		}
 2)  Naplnìní dat pomocí LINQ a pøedání do View
 
 Propojení s MVC
 
 do program.cs pøidat DbContext pøed 'var app = builder.Build();':
-    builder.Services.AddDbContext<InsCorpDbContext>();
+	builder.Services.AddDbContext<InsCorpDbContext>();
 
 pøedání hodnot do view:
-    pøes dictionary ViewData: ViewData["status"] = status;
+	pøes dictionary ViewData: ViewData["status"] = status;
 
 
 using pro všechny view:
@@ -92,8 +92,8 @@ vloení do _ViewImports.cshtml
 
 pøístup k datùm z propojené tabulky - .Include()
 var top100 = _context.Persons.Include(person => person.Constracts)
-                .OrderBy(person => person.Id)
-                .Take(100).ToList();
+				.OrderBy(person => person.Id)
+				.Take(100).ToList();
 
 Formuláø:
 
@@ -101,42 +101,42 @@ Formuláø:
 2) metoda, která zpracuje data z formuláøe
 
 deklarace 2. metody pomocí atributu [HttpPost] + model binding
-        public IActionResult Add()
-        {
-            return View();
-        }
+		public IActionResult Add()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public IActionResult Add(Person person)
-        {
-            // ulozit osobu do DB
-            _context.Persons.Add(person);
-            _context.SaveChanges();
+		[HttpPost]
+		public IActionResult Add(Person person)
+		{
+			// ulozit osobu do DB
+			_context.Persons.Add(person);
+			_context.SaveChanges();
 
-            // navrat GUI
-            return Redirect($"/person/detail/{person.Id}");
-        }
+			// navrat GUI
+			return Redirect($"/person/detail/{person.Id}");
+		}
 
 Ošetøení špatného requestu:
 
 1)  return NotFound(); - metoda se dìdí od Controller
-            // ziskat data
-            var person = _context.Persons.Find(id);
+			// ziskat data
+			var person = _context.Persons.Find(id);
 
-            if(person == null)
-            {
-                return NotFound();
-            }
+			if(person == null)
+			{
+				return NotFound();
+			}
 
 Edit:
  1] aktualiyace prvku po prvku
-    dbPerson.FirstName  = formPerson.FirstName; ...
+	dbPerson.FirstName  = formPerson.FirstName; ...
  2] pøiøazení novıch hodnot z Form objektu z DB: - pokud mám ve formuláøi všechny vlastnosti!
-    _context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
+	_context.Entry(dbPerson).CurrentValues.SetValues(formPerson);
  3] objektu z form pøiøadit status MODIFIED
-    _context.Entry(dbPerson).State = EntityState.Modified;
+	_context.Entry(dbPerson).State = EntityState.Modified;
 
-    doporuèuje se nezasahovat do vnitrnich stavu - u jednoducheho zvolit 1) a delších 2)
+	doporuèuje se nezasahovat do vnitrnich stavu - u jednoducheho zvolit 1) a delších 2)
 
 
 pøihlášení uivatelù:
@@ -146,12 +146,12 @@ Databáze:
 
 create: update-database -Context ApplicationDbContext
 migrace: add-migration BirthNumber -Context InsCorpDbContext
-        update-database -Context InsCorpDbContext
+		update-database -Context InsCorpDbContext
 
 Database First:
-    EF Core Power Tools
-    https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools
-        
+	EF Core Power Tools
+	https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools
+		
 
 
  === A P I ===
@@ -167,48 +167,48 @@ Database First:
  [HttpGet("city/{city}")]
 
  vıbìr jen nìkterıch prvkù z tabulky
-    - vytvoøit vlastní tøídu pro návratovı typ Task<ActionResult<IEnumerable<TypProNavrat>>>
-    - nebo dotaz zabalit do funkce Ok(), ale návrtovı typ zmìnit na Task<ActionResult>
-        return Ok(_context.Persons
-                        .Include(person => person.Address)
-                        .Where(person => person.Address!=null && person.Address.City.ToUpper() == city.ToUpper())
-                        .Select(person => new { person.FirstName, person.LastName, person.Address.City })
-                        .ToList());
+	- vytvoøit vlastní tøídu pro návratovı typ Task<ActionResult<IEnumerable<TypProNavrat>>>
+	- nebo dotaz zabalit do funkce Ok(), ale návrtovı typ zmìnit na Task<ActionResult>
+		return Ok(_context.Persons
+						.Include(person => person.Address)
+						.Where(person => person.Address!=null && person.Address.City.ToUpper() == city.ToUpper())
+						.Select(person => new { person.FirstName, person.LastName, person.Address.City })
+						.ToList());
 
-    - poté pouít .Select(person => new {person.FirstName, person.LastName, person.Address.City})
+	- poté pouít .Select(person => new {person.FirstName, person.LastName, person.Address.City})
 
-    Middleware:
-    vlastní pro logování requestu:
-        - vytvoøit sloku Middleware
-        - vytvoøit pøedpripravenou tøídu Middleware
-        - injectnout metodu Invoke
+	Middleware:
+	vlastní pro logování requestu:
+		- vytvoøit sloku Middleware
+		- vytvoøit pøedpripravenou tøídu Middleware
+		- injectnout metodu Invoke
 
-            public Task Invoke(HttpContext httpContext, InsCorpDbContext context)
-        {
-            // ziskat informace o requestu a odeslat do DB
-            var url = httpContext.Request.Path;
-            var ip = httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+			public Task Invoke(HttpContext httpContext, InsCorpDbContext context)
+		{
+			// ziskat informace o requestu a odeslat do DB
+			var url = httpContext.Request.Path;
+			var ip = httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
 
-            // ulozeni do databaze
-            context.LogRequests.Add(new Model.RequestLog()
-            {
-                Date = DateTime.Now,
-                Url= url,
-                IP= ip
-            });
+			// ulozeni do databaze
+			context.LogRequests.Add(new Model.RequestLog()
+			{
+				Date = DateTime.Now,
+				Url= url,
+				IP= ip
+			});
 
-            context.SaveChanges();
+			context.SaveChanges();
 
 
-            return _next(httpContext);
-        }
-    
-    - do Program.cs voit Use Middleware
-        app.UseLogRequestMiddleware();
+			return _next(httpContext);
+		}
+	
+	- do Program.cs voit Use Middleware
+		app.UseLogRequestMiddleware();
 
 Minimal API
 - vše jen v Program.cs, bez kontroleru
-    app.MapGet()
+	app.MapGet()
 
 
 
@@ -232,11 +232,11 @@ if (!app.Environment.IsDevelopment()) - zjišování, jestli je program pouštìn z 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button> - volání lokální metody, kde dochází k aktualizaci lokální promìnné a dynamicky se upraví hodnota v html
 
 není konstruktor, proto se Injectuje na zaèátku .razer :
-        @inject WeatherForecastService ForecastService
+		@inject WeatherForecastService ForecastService
 
-        @page "/person/detail/{Id:int}" - promena v URL
-        v @code se definuje jako:
+		@page "/person/detail/{Id:int}" - promena v URL
+		v @code se definuje jako:
 
-        <InputDate @bind-Value="person.DateOfBirth" /> - nabindovani property
-            
+		<InputDate @bind-Value="person.DateOfBirth" /> - nabindovani property
+			
 
